@@ -35,14 +35,14 @@
             document.getElementById("dirSelect").value = "";
             document.getElementById("image").src = imgName;
             document.getElementById("feedback").innerHTML = "";
-            document.getElementById("textbox").innerHTML = `Velocity ${vdir}, Magnetic field ${bdir}`;
+            document.getElementById("textbox").innerHTML = `Use the magnetic force right-hand-rule to predict the direction of the force on a positively charged particle when the velocity is ${vdir} and the magnetic field is ${bdir}.`;
         }
     </script>
 </head>
 <body onload="nextImage()">
-    <img id="image" src="V${vdir}-B${bdir}.png">
-    <br>
     <p id="textbox" value="" style="width: 50em;"></p>
+    <br>
+    <img id="image" src="V${vdir}-B${bdir}.png">
     <br>
     <label for="dirSelect">Direction of magnetic force:</label>
     <select id="dirSelect" onchange="checkAnswer()">
