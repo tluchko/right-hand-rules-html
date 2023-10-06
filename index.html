@@ -1,0 +1,64 @@
+<!-- FILEPATH: /Users/tluchko/Documents/repo/right-hand-rules-html/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Right Hand Rules</title>
+    <script>
+        var vdir = '';
+        var bdir = '';
+        function cross_product(v1, v2) {
+            var x = v1[1]*v2[2] - v1[2]*v2[1];
+            var y = v1[2]*v2[0] - v1[0]*v2[2];
+            var z = v1[0]*v2[1] - v1[1]*v2[0];
+            return [x, y, z];
+        }
+
+        function checkAnswer() {
+            var directions = {'Up':[0,1,0], 'Down':[0,-1,0], 'Right':[1,0,0], 'Left':[-1,0,0], 'Out':[0,0,1], 'In':[0,0,-1], 'None':[0,0,0]};
+            var vvec = directions[vdir];
+            var bvec = directions[bdir];
+            var fvec = cross_product(vvec, bvec);
+            var dirSelect = document.getElementById("dirSelect").value;
+            if (directions[dirSelect][0] == fvec[0] && directions[dirSelect][1] == fvec[1] && directions[dirSelect][2] == fvec[2]) {
+                document.getElementById("feedback").innerHTML = 'Correct!';
+            } else {
+                document.getElementById("feedback").innerHTML = `Wrong`;
+            }
+        }
+
+        function nextImage() {
+            var vdirs = ['Up', 'Down', 'Right', 'Left', 'In', 'Out'];
+            var bdirs = ['Up', 'Down', 'Right', 'Left', 'In', 'Out'];
+            vdir = vdirs[Math.floor(Math.random() * vdirs.length)];
+            bdir = bdirs[Math.floor(Math.random() * bdirs.length)];
+            var imgName = "V${vdir}-B${bdir}.png";
+            document.getElementById("dirSelect").value = "";
+            document.getElementById("image").src = imgName;
+            document.getElementById("feedback").innerHTML = "";
+            document.getElementById("textbox").innerHTML = `Velocity ${vdir}, Magnetic field ${bdir}`;
+        }
+    </script>
+</head>
+<body onload="nextImage()">
+    <img id="image" src="V${vdir}-B${bdir}.png">
+    <br>
+    <p id="textbox" value="" style="width: 50em;"></p>
+    <br>
+    <label for="dirSelect">Direction of magnetic force:</label>
+    <select id="dirSelect" onchange="checkAnswer()">
+        <option value="">Select direction</option>
+        <option value="Up">Up</option>
+        <option value="Down">Down</option>
+        <option value="Right">Right</option>
+        <option value="Left">Left</option>
+        <option value="In">In</option>
+        <option value="Out">Out</option>
+        <option value="None">None</option>
+    </select>
+    <br>
+    <p id="feedback" value=""></p>
+    <br>
+    <button onclick="nextImage()">Next</button>
+</body>
+</html>
+
