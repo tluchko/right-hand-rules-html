@@ -4,8 +4,9 @@
 <head>
     <title>Right Hand Rules</title>
     <script>
-        var vdir = '';
-        var bdir = '';
+        var known1Dir = '';
+        var known2Dir = '';
+        var imgName = '';
         function cross_product(v1, v2) {
             var x = v1[1]*v2[2] - v1[2]*v2[1];
             var y = v1[2]*v2[0] - v1[0]*v2[2];
@@ -15,11 +16,11 @@
 
         function checkAnswer() {
             var directions = {'Up':[0,1,0], 'Down':[0,-1,0], 'Right':[1,0,0], 'Left':[-1,0,0], 'Out':[0,0,1], 'In':[0,0,-1], 'None':[0,0,0]};
-            var vvec = directions[vdir];
-            var bvec = directions[bdir];
-            var fvec = cross_product(vvec, bvec);
+            var known1Vec = directions[known1Dir];
+            var known2Vec = directions[known2Dir];
+            var unknownVec = cross_product(known1Vec, known2Vec);
             var dirSelect = document.getElementById("dirSelect").value;
-            if (directions[dirSelect][0] == fvec[0] && directions[dirSelect][1] == fvec[1] && directions[dirSelect][2] == fvec[2]) {
+            if (directions[dirSelect][0] == unknownVec[0] && directions[dirSelect][1] == unknownVec[1] && directions[dirSelect][2] == unknownVec[2]) {
                 document.getElementById("feedback").innerHTML = 'Correct!';
             } else {
                 document.getElementById("feedback").innerHTML = `Wrong`;
@@ -27,24 +28,54 @@
         }
 
         function nextImage() {
-            var vdirs = ['Up', 'Down', 'Right', 'Left', 'In', 'Out'];
-            var bdirs = ['Up', 'Down', 'Right', 'Left', 'In', 'Out'];
-            vdir = vdirs[Math.floor(Math.random() * vdirs.length)];
-            bdir = bdirs[Math.floor(Math.random() * bdirs.length)];
-            var imgName = "V${vdir}-B${bdir}.png";
+            /* Use a cyclic permuation of the vectors.  I.e., 
+                known1, known2, unknown
+                velocity, b-field, force
+                b-field, force, velocity
+                force, velocity, b-field
+            */
+            if (document.getElementById("forceBFieldVelocitySelect").value == "random") {
+                var unknowns = ['magentic force', 'magnetic field', 'velocity'];
+                var unknown = unknowns[Math.floor(Math.random() * unknowns.length)];
+            } else{
+                var unknown = document.getElementById("forceBFieldVelocitySelect").value
+            }
+            if ( unknown == "magentic force") {
+                var known1 = "velocity";
+                var known2 = "magnetic field";
+            } else if (unknown == "magnetic field") {
+                var known1 = "magentic force";
+                var known2 = "velocity";
+            } else if (unknown == "velocity") {
+                var known1 = "magnetic field";
+                var known2 = "magentic force";
+            }
+            var dirs = ['Up', 'Down', 'Right', 'Left', 'In', 'Out'];
+            known1Dir = dirs[Math.floor(Math.random() * dirs.length)];
+            known2Dir = dirs[Math.floor(Math.random() * dirs.length)];
+            var imgName = `images/magneticForce/${known1}${known1Dir}-${known2}${known2Dir}.png`;
             document.getElementById("dirSelect").value = "";
             document.getElementById("image").src = imgName;
             document.getElementById("feedback").innerHTML = "";
-            document.getElementById("textbox").innerHTML = `Use the magnetic force right-hand-rule to predict the direction of the force on a positively charged particle when the velocity is ${vdir} and the magnetic field is ${bdir}.`;
+            document.getElementById("filename").innerHTML = `${imgName}`;
+            document.getElementById("textbox").innerHTML = `Use the magnetic force right-hand-rule to predict the direction of the <b>${unknown}</b> on a positively charged particle when the <b>${known1}</b> is ${known1Dir} and the <b>${known2}</b> is ${known2Dir}.`;
+            document.getElementById("dirSelectLabel").innerHTML = `Direction of ${unknown}:`;
         }
     </script>
 </head>
 <body onload="nextImage()">
+    <select id="forceBFieldVelocitySelect" onchange="nextImage()">
+        <option value="magentic force">Force</option>
+        <option value="magnetic field">Magnetic field</option>
+        <option value="velocity">Velocity</option>
+        <option value="random">Random</option>
+    </select>
     <p id="textbox" value="" style="width: 50em;"></p>
     <br>
-    <img id="image" src="V${vdir}-B${bdir}.png">
+    <p id="filename"></p>
+    <img id="image">
     <br>
-    <label for="dirSelect">Direction of magnetic force:</label>
+    <label for="dirSelect"><p id="dirSelectLabel"></p></label>
     <select id="dirSelect" onchange="checkAnswer()">
         <option value="">Select direction</option>
         <option value="Up">Up</option>
@@ -53,7 +84,7 @@
         <option value="Left">Left</option>
         <option value="In">In</option>
         <option value="Out">Out</option>
-        <option value="None">None</option>
+        <option value="None">None/Does not make sense</option>
     </select>
     <br>
     <p id="feedback" value=""></p>
