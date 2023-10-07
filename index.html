@@ -6,7 +6,7 @@
     <script>
         var known1Dir = '';
         var known2Dir = '';
-        var imgName = '';
+        var chargeSign = '';
         function cross_product(v1, v2) {
             var x = v1[1]*v2[2] - v1[2]*v2[1];
             var y = v1[2]*v2[0] - v1[0]*v2[2];
@@ -15,10 +15,13 @@
         }
 
         function checkAnswer() {
-            var directions = {'Up':[0,1,0], 'Down':[0,-1,0], 'Right':[1,0,0], 'Left':[-1,0,0], 'Out':[0,0,1], 'In':[0,0,-1], 'None':[0,0,0]};
+            var directions = {'up':[0,1,0], 'down':[0,-1,0], 'right':[1,0,0], 'left':[-1,0,0], 'out of the page':[0,0,1], 'in to the page':[0,0,-1], 'none':[0,0,0]};
             var known1Vec = directions[known1Dir];
             var known2Vec = directions[known2Dir];
             var unknownVec = cross_product(known1Vec, known2Vec);
+            if (chargeSign == 'negative') {
+                unknownVec = unknownVec.map(x => -x);
+            }
             var dirSelect = document.getElementById("dirSelect").value;
             if (directions[dirSelect][0] == unknownVec[0] && directions[dirSelect][1] == unknownVec[1] && directions[dirSelect][2] == unknownVec[2]) {
                 document.getElementById("feedback").innerHTML = 'Correct!';
@@ -28,6 +31,8 @@
         }
 
         function nextImage() {
+            var chargeSigns = ['positive', 'negative'];
+            chargeSign = chargeSigns[Math.floor(Math.random() * chargeSigns.length)];
             /* Use a cyclic permuation of the vectors.  I.e., 
                 known1, known2, unknown
                 velocity, b-field, force
@@ -50,7 +55,7 @@
                 var known1 = "magnetic field";
                 var known2 = "magentic force";
             }
-            var dirs = ['Up', 'Down', 'Right', 'Left', 'In', 'Out'];
+            var dirs = ['up', 'down', 'right', 'left', 'in to the page', 'out of the page'];
             known1Dir = dirs[Math.floor(Math.random() * dirs.length)];
             known2Dir = dirs[Math.floor(Math.random() * dirs.length)];
             var imgName = `images/magneticForce/${known1}${known1Dir}-${known2}${known2Dir}.png`;
@@ -58,12 +63,14 @@
             document.getElementById("image").src = imgName;
             document.getElementById("feedback").innerHTML = "";
             document.getElementById("filename").innerHTML = `${imgName}`;
-            document.getElementById("textbox").innerHTML = `Use the magnetic force right-hand-rule to predict the direction of the <b>${unknown}</b> on a positively charged particle when the <b>${known1}</b> is ${known1Dir} and the <b>${known2}</b> is ${known2Dir}.`;
-            document.getElementById("dirSelectLabel").innerHTML = `Direction of ${unknown}:`;
+            document.getElementById("textbox").innerHTML = `Use the magnetic force right-hand-rule to predict the direction of the <b>${unknown}</b> 
+                on a <b>${chargeSign}ly</b> charged particle when the <b>${known1}</b> is ${known1Dir} and the <b>${known2}</b> is ${known2Dir}.`;
+            document.getElementById("dirSelectLabel").innerText = `Direction of the ${unknown}:`;
         }
     </script>
 </head>
 <body onload="nextImage()">
+    <label for="forceBFieldVelocitySelect">Select the unknown direction you would like to solve for:</label>
     <select id="forceBFieldVelocitySelect" onchange="nextImage()">
         <option value="magentic force">Force</option>
         <option value="magnetic field">Magnetic field</option>
@@ -75,16 +82,16 @@
     <p id="filename"></p>
     <img id="image">
     <br>
-    <label for="dirSelect"><p id="dirSelectLabel"></p></label>
+    <label id="dirSelectLabel" for="dirSelect"></label>
     <select id="dirSelect" onchange="checkAnswer()">
         <option value="">Select direction</option>
-        <option value="Up">Up</option>
-        <option value="Down">Down</option>
-        <option value="Right">Right</option>
-        <option value="Left">Left</option>
-        <option value="In">In</option>
-        <option value="Out">Out</option>
-        <option value="None">None/Does not make sense</option>
+        <option value="up">Up</option>
+        <option value="down">Down</option>
+        <option value="right">Right</option>
+        <option value="left">Left</option>
+        <option value="in to the page">In to the page</option>
+        <option value="out of the page">Out of the page</option>
+        <option value="none">None/Does not make sense</option>
     </select>
     <br>
     <p id="feedback" value=""></p>
