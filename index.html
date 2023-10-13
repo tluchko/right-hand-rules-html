@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Webpage</title>
+    <style>
+        /* Style the navigation bar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 10px;
+        }
+
+        /* Style the tab links */
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px 5px 0 0;
+            background-color: #555;
+            margin-right: 5px;
+        }
+
+        /* Style the active tab link */
+        nav a.active {
+            background-color: #fff;
+            color: #333;
+        }
+
+        /* Style the content sections */
+        section {
+            display: none;
+            padding: 10px;
+            border: 1px solid #333;
+        }
+
+        /* Show the first content section by default */
+        section:first-of-type {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="#magnetic_force_rhr" class="active">Magnetic Force RHR</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+    <main>
+        <section id="magnetic_force_rhr"></section>
+        <section id="about">
+            <h1>About Me</h1>
+            <p>This is the about page content.</p>
+        </section>
+        <section id="contact">
+            <h1>Contact Me</h1>
+            <p>This is the contact page content.</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2021 My Webpage</p>
+    </footer>
+    <script>
+        // Get all the tab links and content sections
+        const tabLinks = document.querySelectorAll('nav a');
+        const sections = document.querySelectorAll('section');
+        function loadContent(filename, sectionId) {
+            // Get the div element where the content should be inserted
+            const div = document.getElementById(sectionId);
+            // Load the content of the file into the specified section
+            fetch(filename)
+                .then(response => response.text())
+                .then(html => {
+                    div.innerHTML = html;
+                    div.style.display = 'block';
+                    // Execute the JavaScript code inside the HTML content
+                    const script = div.querySelector('script');
+                    eval?.(script.textContent); //using the global scope
+                    nextImage();
+                });
+        };
+        // Add an event listener to each tab link
+        tabLinks.forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+
+                // Remove the active class from all tab links
+                tabLinks.forEach(link => link.classList.remove('active'));
+
+                // Add the active class to the clicked tab link
+                link.classList.add('active');
+
+                // Hide all content sections
+                sections.forEach(section => section.style.display = 'none');
+
+                // Show the corresponding content section
+                const id = link.getAttribute('href').slice(1);
+                if (id === 'magnetic_force_rhr') {
+                    // Load the content of 'magnetic_force_RHR.html' into the 'magnetic_force_rhr' section
+                    loadContent('magnetic_force_rhr.html', 'magnetic_force_rhr');
+                } else {
+                    // Show the corresponding section
+                    document.getElementById(id).style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
