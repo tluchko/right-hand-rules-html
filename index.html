@@ -7,7 +7,7 @@
         /* Style the navigation bar */
         nav {
             display: flex;
-            justify-content: space-between;
+            /* justify-content: space-between; */
             align-items: center;
             background-color: #333;
             color: white;
@@ -48,42 +48,49 @@
     <header>
         <nav>
             <a href="#magnetic_force_rhr" class="active">Magnetic Force RHR</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
+            <a href="#magnetic_field_rhr">Magnetic Field RHR</a>
         </nav>
     </header>
     <main>
         <section id="magnetic_force_rhr"></section>
-        <section id="about">
-            <h1>About Me</h1>
-            <p>This is the about page content.</p>
-        </section>
-        <section id="contact">
-            <h1>Contact Me</h1>
-            <p>This is the contact page content.</p>
+        <section id="magnetic_field_rhr">
+            <p>Comming soon.</p>
         </section>
     </main>
     <footer>
-        <p>&copy; 2021 My Webpage</p>
+
     </footer>
     <script>
+        window.addEventListener('load', () => {
+            // Click the "Magnetic Force RHR" tab
+            document.querySelector('nav a[href="#magnetic_force_rhr"]').click();
+        });
+        var magnetic_force_rhr_loaded = false;
+        var magnetic_field_rhr_loaded = false;
+
         // Get all the tab links and content sections
         const tabLinks = document.querySelectorAll('nav a');
         const sections = document.querySelectorAll('section');
-        function loadContent(filename, sectionId) {
+        function loadContent(filename, sectionId, loaded) {
             // Get the div element where the content should be inserted
             const div = document.getElementById(sectionId);
             // Load the content of the file into the specified section
-            fetch(filename)
-                .then(response => response.text())
-                .then(html => {
-                    div.innerHTML = html;
-                    div.style.display = 'block';
-                    // Execute the JavaScript code inside the HTML content
-                    const script = div.querySelector('script');
-                    eval?.(script.textContent); //using the global scope
-                    nextImage();
-                });
+            if (loaded == false) {
+                fetch(filename)
+                    .then(response => response.text())
+                    .then(html => {
+                        div.innerHTML = html;
+                        div.style.display = 'block';
+                        // Execute the JavaScript code inside the HTML content
+                        const script = div.querySelector('script');
+                        eval?.(script.textContent); //using the global scope
+                        nextImage();
+                    });
+                loaded = true;
+            } else {
+                // Show the corresponding section
+                document.getElementById(sectionId).style.display = 'block';
+            };
         };
         // Add an event listener to each tab link
         tabLinks.forEach(link => {
@@ -103,7 +110,7 @@
                 const id = link.getAttribute('href').slice(1);
                 if (id === 'magnetic_force_rhr') {
                     // Load the content of 'magnetic_force_RHR.html' into the 'magnetic_force_rhr' section
-                    loadContent('magnetic_force_rhr.html', 'magnetic_force_rhr');
+                    loadContent('magnetic_force_rhr.html', 'magnetic_force_rhr', magnetic_force_rhr_loaded);
                 } else {
                     // Show the corresponding section
                     document.getElementById(id).style.display = 'block';
