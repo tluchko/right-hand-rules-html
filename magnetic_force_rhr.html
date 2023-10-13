@@ -1,18 +1,19 @@
 <!-- FILEPATH: /Users/tluchko/Documents/repo/right-hand-rules-html/index.html -->
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Right Hand Rules</title>
     <script>
         var known1Dir = '';
         var known2Dir = '';
         var chargeSign = '';
-        var directions = {'up':[0,1,0], 'down':[0,-1,0], 'right':[1,0,0], 'left':[-1,0,0], 'out of the page':[0,0,1], 'in to the page':[0,0,-1], 'none':[0,0,0]};
+        var directions = { 'up': [0, 1, 0], 'down': [0, -1, 0], 'right': [1, 0, 0], 'left': [-1, 0, 0], 'out of the page': [0, 0, 1], 'in to the page': [0, 0, -1], 'none': [0, 0, 0] };
 
         function cross_product(v1, v2) {
-            var x = v1[1]*v2[2] - v1[2]*v2[1];
-            var y = v1[2]*v2[0] - v1[0]*v2[2];
-            var z = v1[0]*v2[1] - v1[1]*v2[0];
+            var x = v1[1] * v2[2] - v1[2] * v2[1];
+            var y = v1[2] * v2[0] - v1[0] * v2[2];
+            var z = v1[0] * v2[1] - v1[1] * v2[0];
             return [x, y, z];
         }
 
@@ -33,7 +34,14 @@
 
         function nextImage() {
             var chargeSigns = ['positive', 'negative'];
-            chargeSign = chargeSigns[Math.floor(Math.random() * chargeSigns.length)];
+            var chargeType = document.getElementById("chargeType").value
+            if (chargeType == "particle") {
+                chargeSign = chargeSigns[Math.floor(Math.random() * chargeSigns.length)];
+                var chargeDescription = `${chargeSign}ly charged particle`;
+            } else if (chargeType == "current") {
+                chargeSign = "positive";
+                var chargeDescription = "current";
+            }
             /* Use a cyclic permuation of the vectors.  I.e., 
                 known1, known2, unknown
                 velocity, b-field, force
@@ -43,10 +51,10 @@
             if (document.getElementById("forceBFieldVelocitySelect").value == "random") {
                 var unknowns = ['magnetic force', 'magnetic field', 'velocity'];
                 var unknown = unknowns[Math.floor(Math.random() * unknowns.length)];
-            } else{
+            } else {
                 var unknown = document.getElementById("forceBFieldVelocitySelect").value
             }
-            if ( unknown == "magnetic force") {
+            if (unknown == "magnetic force") {
                 var known1 = "velocity";
                 var known2 = "magnetic field";
             } else if (unknown == "magnetic field") {
@@ -59,17 +67,18 @@
             var dirs = ['up', 'down', 'right', 'left', 'in to the page', 'out of the page'];
             known1Dir = dirs[Math.floor(Math.random() * dirs.length)];
             known2Dir = dirs[Math.floor(Math.random() * dirs.length)];
-            var imgName = `images/force/particle_${chargeSign}_${known1}-[${directions[known1Dir]}]_${known2}-[${directions[known2Dir]}].png`;
+            var imgName = `images/force/${chargeType}_${chargeSign}_${known1}-[${directions[known1Dir]}]_${known2}-[${directions[known2Dir]}].png`;
             document.getElementById("dirSelect").value = "";
             document.getElementById("image").src = imgName;
             document.getElementById("feedback").innerHTML = "";
             // document.getElementById("filename").innerHTML = `${imgName}`;
             document.getElementById("textbox").innerHTML = `Use the magnetic force right-hand-rule to predict the direction of the <b>${unknown}</b> 
-                on a <b>${chargeSign}ly</b> charged particle when the <b>${known1}</b> is <b>${known1Dir}</b> and the <b>${known2}</b> is <b>${known2Dir}</b>.`;
+                on a <b>${chargeDescription}</b> when the <b>${known1}</b> is <b>${known1Dir}</b> and the <b>${known2}</b> is <b>${known2Dir}</b>.`;
             document.getElementById("dirSelectLabel").innerText = `Direction of the ${unknown}:`;
         }
     </script>
 </head>
+
 <body onload="nextImage()">
     <label for="forceBFieldVelocitySelect">Select the unknown direction you would like to solve for:</label>
     <select id="forceBFieldVelocitySelect" onchange="nextImage()">
@@ -77,6 +86,12 @@
         <option value="magnetic field">Magnetic field</option>
         <option value="velocity">Velocity</option>
         <option value="random">Random</option>
+    </select>
+    <br>
+    <label for="chargeType">Select the type of moving charge:</label>
+    <select id="chargeType" onchange="nextImage()">
+        <option value="particle">Charged particle</option>
+        <option value="current">Current</option>
     </select>
     <p id="textbox" value="" style="width: 50em;"></p>
     <br>
@@ -90,7 +105,7 @@
         <option value="down">Down</option>
         <option value="right">Right</option>
         <option value="left">Left</option>
-        <option value="in to the page">In to the page</option>
+        <option value="in to the page">Into the page</option>
         <option value="out of the page">Out of the page</option>
         <option value="none">None/Does not make sense</option>
     </select>
@@ -99,5 +114,5 @@
     <br>
     <button onclick="nextImage()">Next</button>
 </body>
-</html>
 
+</html>
