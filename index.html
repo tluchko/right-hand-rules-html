@@ -57,15 +57,15 @@
         </section>
     </main>
     <footer>
-    Copyright &copy; 2023 Tyler Luchko
+        Copyright &copy; 2023 Tyler Luchko
     </footer>
     <script>
         window.addEventListener('load', () => {
             // Click the "Magnetic Force RHR" tab
             document.querySelector('nav a[href="#magnetic_force_rhr"]').click();
         });
-        var magnetic_force_rhr_loaded = false;
-        var magnetic_field_rhr_loaded = false;
+        var magnetic_force_rhr_loaded = { 'value': false };
+        var magnetic_field_rhr_loaded = { 'value': false };
 
         // Get all the tab links and content sections
         const tabLinks = document.querySelectorAll('nav a');
@@ -74,7 +74,7 @@
             // Get the div element where the content should be inserted
             const div = document.getElementById(sectionId);
             // Load the content of the file into the specified section
-            if (loaded == false) {
+            if (loaded.value == false) {
                 fetch(filename)
                     .then(response => response.text())
                     .then(html => {
@@ -85,7 +85,7 @@
                         eval?.(script.textContent); //using the global scope
                         nextImage();
                     });
-                loaded = true;
+                loaded.value = true;
             } else {
                 // Show the corresponding section
                 document.getElementById(sectionId).style.display = 'block';
