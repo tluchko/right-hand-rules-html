@@ -32,17 +32,17 @@
             });
         });
 
-        function checkAnswer(id) {
+        function fieldCheckAnswer(id) {
             button = document.getElementById(id)
             direction = button.value;
             var unknownIndex = unknownDirections.indexOf(direction);
             var knownIndex = knownDirections.indexOf(knownDir);
             if (unknownIndex == knownIndex) {
-                document.getElementById("feedback").innerHTML = 'Correct!';
+                document.getElementById("fieldFeedback").innerHTML = 'Correct!';
                 // Change the border color of the clicked button
                 button.style.borderColor = "green";
             } else {
-                document.getElementById("feedback").innerHTML = `Wrong`;
+                document.getElementById("fieldFeedback").innerHTML = `Wrong`;
                 // Change the border color of the clicked button
                 button.style.borderColor = "red";
             }
@@ -51,12 +51,6 @@
 
 
         function nextImage() {
-            /* Use a cyclic permuation of the vectors.  I.e., 
-                known1, known2, unknown
-                velocity, b-field, force
-                b-field, force, velocity
-                force, velocity, b-field
-            */
             if (document.getElementById("unknownSelect").value == "random") {
                 var unknowns = ['current', 'magnetic field'];
                 var unknown = unknowns[Math.floor(Math.random() * unknowns.length)];
@@ -85,17 +79,20 @@
             }
             knownDir = knownDirections[Math.floor(Math.random() * knownDirections.length)];
             var imgName = `images/field/${document.getElementById("currentType").value}_${known}-${knownDir}.png`;
-            document.getElementById("image").src = imgName;
-            document.getElementById("feedback").innerHTML = "";
-            // document.getElementById("filename").innerHTML = `${imgName}`;
-            document.getElementById("textbox").innerHTML = `Use the magnetic field right-hand-rule to predict the direction of the ${unknownDescription} when the <b>${known}</b> is in the <b>${knownDir}</b> direction.`;
-            document.getElementById("buttonGridLabel").innerText = `Direction of the ${unknown}:`;
-            var buttons = document.querySelectorAll("div.buttonGrid button");
+            console.log(imgName);
+            document.getElementById("fieldImage").src = imgName;
+            document.getElementById("fieldFeedback").innerHTML = "";
+            // document.getElementById("fieldFilename").innerHTML = `${imgName}`;
+            document.getElementById("fieldTextbox").innerHTML = `Use the magnetic field right-hand-rule to predict the direction of the ${unknownDescription} when the <b>${known}</b> is in the <b>${knownDir}</b> direction.`;
+            document.getElementById("instructionLabel").innerText = `Direction of the ${unknown}:`;
+            // get all the buttons with answers
+            var buttons = document.querySelectorAll("[id^=button]");
 
             for (let ibutton = 0; ibutton < buttons.length; ibutton++) {
                 const button = buttons[ibutton];
                 // do something with the button
                 button.style.borderColor = "white";
+                button.style.backgroundColor = "white";
                 button.innerHTML = `${unknownDirections[ibutton]}`;
                 button.value = `${unknownDirections[ibutton]}`;
                 button.innerHTML = `<img src="images/field/${document.getElementById('currentType').value}_${unknown}-${unknownDirections[ibutton]}.png" alt="${unknown} ${unknownDirections[ibutton]}">`;
@@ -117,54 +114,49 @@
         <option value="loop">Loop</option>
         <option value="linear">Linear</option>
     </select>
-    <p id="textbox" value="" style="width: 50em;"></p>
+    <p id="fieldTextbox" value="" style="width: 50em;"></p>
     <br>
-    <p id="filename"></p>
-    <img id="image">
+    <p id="fieldFilename"></p>
+    <img id="fieldImage">
     <br>
-    <!-- Add this to the body of your HTML file -->
-    <label id="buttonGridLabel" for="buttonGrid"></label>
-    <div class="buttonGrid">
-        <style>
-            td {
-                text-align: center;
-            }
-        </style>
-        <table>
-                <tr>
-                    <td>
-                        <button id="button1" onclick="checkAnswer(this.id)">
-                        </button>
-                    </td>
-                    <td>
-                        <button id="button2" onclick="checkAnswer(this.id)">
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button id="button3" onclick="checkAnswer(this.id)">
-                        </button>
-                    </td>
-                    <td>
-                        <button id="button4" onclick="checkAnswer(this.id)">
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button id="button5" onclick="checkAnswer(this.id)">
-                        </button>
-                    </td>
-                    <td>
-                        <button id="button6" onclick="checkAnswer(this.id)">
-                        </button>
-                    </td>
-                </tr>
-            </table>
-    </div>
+    <p id="instructionLabel"></label>
+    <table>
+        <tr>
+            <td>
+                <button id="button1" onclick="fieldCheckAnswer(this.id)">
+                </button>
+            </td>
+            <td>
+                <button id="button2" onclick="fieldCheckAnswer(this.id)">
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button id="button3" onclick="fieldCheckAnswer(this.id)">
+                </button>
+            </td>
+            <td>
+                <button id="button4" onclick="fieldCheckAnswer(this.id)">
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button id="button5" onclick="fieldCheckAnswer(this.id)">
+                </button>
+            </td>
+            <td>
+                <button id="button6" onclick="fieldCheckAnswer(this.id)">
+                </button>
+            </td>
+            <td>
+            </td>
+
+        </tr>
+    </table>
     <br>
-    <p id="feedback" value=""></p>
+    <p id="fieldFeedback" value=""></p>
     <br>
     <button onclick="nextImage()">Next</button>
 </body>

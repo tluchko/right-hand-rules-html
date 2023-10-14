@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>My Webpage</title>
+    <title>Right-hand-rules</title>
     <style>
         /* Style the navigation bar */
         nav {
@@ -54,7 +54,6 @@
     <main>
         <section id="magnetic_force_rhr"></section>
         <section id="magnetic_field_rhr">
-            <p>Comming soon.</p>
         </section>
     </main>
     <footer>
@@ -112,8 +111,8 @@
                     // Load the content of 'magnetic_force_RHR.html' into the 'magnetic_force_rhr' section
                     loadContent('magnetic_force_rhr.html', 'magnetic_force_rhr', magnetic_force_rhr_loaded);
                 } else {
-                    // Show the corresponding section
-                    document.getElementById(id).style.display = 'block';
+                    // Load the content of 'magnetic_field_RHR.html' into the 'magnetic_field_rhr' section
+                    loadContent('magnetic_field_rhr.html', 'magnetic_field_rhr', magnetic_field_rhr_loaded);
                 }
             });
         });
