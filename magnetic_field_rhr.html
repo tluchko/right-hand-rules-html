@@ -19,10 +19,8 @@
         // Add an event listener to each button
         var buttons = document.querySelectorAll("div.buttonGrid button");
         var buttons = document.querySelectorAll("div.buttonGrid button");
-        console.log(document.querySelectorAll("div.buttonGrid"));
         buttons.forEach(function (button) {
             button.addEventListener("click", function () {
-                console.log(button.value);
                 // Change the border color of the clicked button
                 button.style.borderColor = "red";
                 // Change the border color of all other buttons back to the original color
@@ -37,10 +35,8 @@
         function checkAnswer(id) {
             button = document.getElementById(id)
             direction = button.value;
-            console.log('checkAnswer', direction);
             var unknownIndex = unknownDirections.indexOf(direction);
             var knownIndex = knownDirections.indexOf(knownDir);
-            console.log(unknownIndex, knownIndex);
             if (unknownIndex == knownIndex) {
                 document.getElementById("feedback").innerHTML = 'Correct!';
                 // Change the border color of the clicked button
@@ -67,18 +63,15 @@
             } else {
                 var unknown = document.getElementById("unknownSelect").value
             }
-            console.log(document.getElementById("currentType").value);
             if (document.getElementById("currentType").value == "loop") {
                 var currentDescription = "loop of current";
                 var currentDirections = loop_directions;
                 var fieldDirections = linear_directions;
-                console.log('loop', currentDirections, fieldDirections);
             } else if (document.getElementById("currentType").value == "linear") {
                 var currentDescription = "linear current";
                 var currentDirections = linear_directions;
                 var fieldDirections = loop_directions;
             }
-            console.log(unknown, currentDirections)
             if (unknown == "magnetic field") {
                 var known = "current";
                 unknownDirections = fieldDirections;
@@ -94,16 +87,15 @@
             var imgName = `images/field/${document.getElementById("currentType").value}_${known}-${knownDir}.png`;
             document.getElementById("image").src = imgName;
             document.getElementById("feedback").innerHTML = "";
-            document.getElementById("filename").innerHTML = `${imgName}`;
+            // document.getElementById("filename").innerHTML = `${imgName}`;
             document.getElementById("textbox").innerHTML = `Use the magnetic field right-hand-rule to predict the direction of the ${unknownDescription} when the <b>${known}</b> is in the <b>${knownDir}</b> direction.`;
             document.getElementById("buttonGridLabel").innerText = `Direction of the ${unknown}:`;
             var buttons = document.querySelectorAll("div.buttonGrid button");
-            console.log(document.querySelectorAll("div.buttonGrid"));
 
             for (let ibutton = 0; ibutton < buttons.length; ibutton++) {
                 const button = buttons[ibutton];
                 // do something with the button
-                button.style.borderColor = "";
+                button.style.borderColor = "white";
                 button.innerHTML = `${unknownDirections[ibutton]}`;
                 button.value = `${unknownDirections[ibutton]}`;
                 button.innerHTML = `<img src="images/field/${document.getElementById('currentType').value}_${unknown}-${unknownDirections[ibutton]}.png" alt="${unknown} ${unknownDirections[ibutton]}">`;
@@ -139,43 +131,37 @@
             }
         </style>
         <table>
-            <tr>
-                <td>
-                    <button id="button1" value="1" onclick="checkAnswer(this.id)">
-                        <img src="image1.jpg" alt="Image 1">
-                    </button>
-                </td>
-                <td>
-                    <button id="button2" value="2" onclick="checkAnswer(this.id)">
-                        <img src="image2.jpg" alt="Image 2">
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button id="button3" value="3" onclick="checkAnswer(this.id)">
-                        <img src="image3.jpg" alt="Image 3">
-                    </button>
-                </td>
-                <td>
-                    <button id="button4" value="4" onclick="checkAnswer(this.id)">
-                        <img src="image4.jpg" alt="Image 4">
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button id="button5" value="5" onclick="checkAnswer(this.id)">
-                        <img src="image5.jpg" alt="Image 5">
-                    </button>
-                </td>
-                <td>
-                    <button id="button6" value="6" onclick="checkAnswer(this.id)">
-                        <img src="image6.jpg" alt="Image 6">
-                    </button>
-                </td>
-            </tr>
-        </table>
+                <tr>
+                    <td>
+                        <button id="button1" onclick="checkAnswer(this.id)">
+                        </button>
+                    </td>
+                    <td>
+                        <button id="button2" onclick="checkAnswer(this.id)">
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="button3" onclick="checkAnswer(this.id)">
+                        </button>
+                    </td>
+                    <td>
+                        <button id="button4" onclick="checkAnswer(this.id)">
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="button5" onclick="checkAnswer(this.id)">
+                        </button>
+                    </td>
+                    <td>
+                        <button id="button6" onclick="checkAnswer(this.id)">
+                        </button>
+                    </td>
+                </tr>
+            </table>
     </div>
     <br>
     <p id="feedback" value=""></p>
