@@ -1,0 +1,63 @@
+/* Style the navigation bar */
+nav {
+    display: flex;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+}
+
+/* Style the tab links */
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px 5px 0 0;
+    background-color: #555;
+    margin-right: 5px;
+}
+
+/* Style the active tab link */
+nav a.active {
+    background-color: #fff;
+    color: #333;
+}
+
+/* Style the content sections */
+section {
+    display: none;
+    padding: 10px;
+    border: 1px solid #333;
+}
+
+/* Show the first content section by default */
+section:first-of-type {
+    display: block;
+}
+
+/* Ensure images are consistently sized */
+img {
+    width: 200px; /* Set the width of the images to 200px */
+    height: auto; /* Maintain the aspect ratio */
+}
+
+/* Style the buttons */
+.styled-button {
+    border: 8px solid black; /* Set the border width and color for buttons */
+    padding: 5px; /* Add some padding for better appearance */
+}
+
+.flex-container {
+    display: flex;
+    align-items: flex-start;
+}
+.flex-item {
+    margin-right: 20px;
+}
+.image-table-container {
+    display: flex;
+    align-items: flex-start;
+}
+.image-table-item {
+    margin-right: 20px;
+}

@@ -3,7 +3,8 @@
 <html>
 
 <head>
-    <title>Magentic Force Right-Hand-Rules</title>
+    <title>Magnetic Field Right-Hand-Rules</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <script>
         var knownDir = '';
         // directions are matched here. E.g, 'out of page' anx 'xy+x' go together
@@ -42,7 +43,7 @@
                 // Change the border color of the clicked button
                 button.style.borderColor = "green";
             } else {
-                document.getElementById("fieldFeedback").innerHTML = `Wrong`;
+                document.getElementById("fieldFeedback").innerHTML = `Try again.`;
                 // Change the border color of the clicked button
                 button.style.borderColor = "red";
             }
@@ -102,63 +103,67 @@
 </head>
 
 <body onload="nextImage()">
-    <label for="unknownSelect">Select the unknown direction you would like to solve for:</label>
-    <select id="unknownSelect" onchange="nextImage()">
-        <option value="current">Current</option>
-        <option value="magnetic field">Magnetic field</option>
-        <option value="random">Random</option>
-    </select>
-    <br>
-    <label for="currentType">Select the type of current:</label>
-    <select id="currentType" onchange="nextImage()">
-        <option value="loop">Loop</option>
-        <option value="linear">Linear</option>
-    </select>
-    <p id="fieldTextbox" value="" style="width: 50em;"></p>
-    <br>
-    <p id="fieldFilename"></p>
-    <img id="fieldImage">
-    <br>
-    <p id="instructionLabel"></label>
-    <table>
-        <tr>
-            <td>
-                <button id="button1" onclick="fieldCheckAnswer(this.id)">
-                </button>
-            </td>
-            <td>
-                <button id="button2" onclick="fieldCheckAnswer(this.id)">
-                </button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button id="button3" onclick="fieldCheckAnswer(this.id)">
-                </button>
-            </td>
-            <td>
-                <button id="button4" onclick="fieldCheckAnswer(this.id)">
-                </button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button id="button5" onclick="fieldCheckAnswer(this.id)">
-                </button>
-            </td>
-            <td>
-                <button id="button6" onclick="fieldCheckAnswer(this.id)">
-                </button>
-            </td>
-            <td>
-            </td>
-
-        </tr>
-    </table>
-    <br>
-    <p id="fieldFeedback" value=""></p>
-    <br>
-    <button onclick="nextImage()">Next</button>
+    <div class="flex-container">
+        <div class="flex-item">
+            <label for="unknownSelect">Select the unknown direction you would like to solve for:</label>
+            <select id="unknownSelect" onchange="nextImage()">
+                <option value="current">Current</option>
+                <option value="magnetic field">Magnetic field</option>
+                <option value="random">Random</option>
+            </select>
+            <br>
+            <label for="currentType">Select the type of current:</label>
+            <select id="currentType" onchange="nextImage()">
+                <option value="loop">Loop</option>
+                <option value="linear">Linear</option>
+            </select>
+            <p id="fieldTextbox" value="" style="width: 50em;"></p>
+            <br>
+            <p id="fieldFilename"></p>
+            <div class="image-table-container">
+                <div class="image-table-item">
+                    <img id="fieldImage">
+                </div>
+                <div class="image-table-item">
+                    <p id="instructionLabel"></p>
+                    <table>
+                        <tr>
+                            <td>
+                                <button id="button1" class="styled-button" onclick="fieldCheckAnswer(this.id)">
+                                </button>
+                            </td>
+                            <td>
+                                <button id="button2" class="styled-button" onclick="fieldCheckAnswer(this.id)">
+                                </button>
+                            </td>
+                            <td>
+                                <button id="button3" class="styled-button" onclick="fieldCheckAnswer(this.id)">
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button id="button4" class="styled-button" onclick="fieldCheckAnswer(this.id)">
+                                </button>
+                            </td>
+                            <td>
+                                <button id="button5" class="styled-button" onclick="fieldCheckAnswer(this.id)">
+                                </button>
+                            </td>
+                            <td>
+                                <button id="button6" class="styled-button" onclick="fieldCheckAnswer(this.id)">
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <br>
+            <p id="fieldFeedback" style="font-size: 200%; height: 2ex;" value=""></p>
+            <br>
+            <button onclick="nextImage()">Next</button>
+        </div>
+    </div>
 </body>
 
 </html>
