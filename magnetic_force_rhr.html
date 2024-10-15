@@ -4,6 +4,7 @@
 
 <head>
     <title>Magnetic Field Right-Hand-Rules</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <script>
         var known1Dir = '';
         var known2Dir = '';
@@ -28,7 +29,7 @@
             if (directions[dirSelect][0] == unknownVec[0] && directions[dirSelect][1] == unknownVec[1] && directions[dirSelect][2] == unknownVec[2]) {
                 document.getElementById("feedback").innerHTML = 'Correct!';
             } else {
-                document.getElementById("feedback").innerHTML = `Wrong`;
+                document.getElementById("feedback").innerHTML = `Try again.`;
             }
         }
 
