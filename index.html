@@ -24,7 +24,7 @@
     <script>
         window.addEventListener('load', () => {
             // Click the "Magnetic Force RHR" tab
-            document.querySelector('nav a[href="#magnetic_force_rhr"]').click();
+            document.querySelector('nav a[href="#magnetic_field_rhr"]').click();
         });
         var magnetic_force_rhr_loaded = { 'value': false };
         var magnetic_field_rhr_loaded = { 'value': false };
@@ -36,22 +36,22 @@
             // Get the div element where the content should be inserted
             const div = document.getElementById(sectionId);
             // Load the content of the file into the specified section
-            if (loaded.value == false) {
-                fetch(filename)
-                    .then(response => response.text())
-                    .then(html => {
-                        div.innerHTML = html;
-                        div.style.display = 'block';
-                        // Execute the JavaScript code inside the HTML content
-                        const script = div.querySelector('script');
-                        eval?.(script.textContent); //using the global scope
-                        nextImage();
-                    });
-                loaded.value = true;
-            } else {
-                // Show the corresponding section
-                document.getElementById(sectionId).style.display = 'block';
-            };
+            fetch(filename)
+                .then(response => response.text())
+                .then(html => {
+                    div.innerHTML = html;
+                    div.style.display = 'block';
+                    // Execute the JavaScript code inside the HTML content
+                    const script = div.querySelector('script');
+                    if (script) {
+                        const newScript = document.createElement('script');
+                        newScript.textContent = script.textContent;
+                        document.body.appendChild(newScript);
+                        document.body.removeChild(newScript);
+                    }
+                    nextImage(); // Call nextImage after loading the content
+                });
+            loaded.value = true;
         };
         // Add an event listener to each tab link
         tabLinks.forEach(link => {
